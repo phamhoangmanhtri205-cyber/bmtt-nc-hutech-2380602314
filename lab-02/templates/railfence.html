@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mật mã Rail Fence - BMTT Nâng Cao</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span>🛡️</span> BMTT Nâng Cao
+        </a>
+        <nav class="nav-links">
+            <a href="/" class="nav-item">Dashboard</a>
+            <a href="/caesar" class="nav-item">Caesar</a>
+            <a href="/vigenere" class="nav-item">Vigenère</a>
+            <a href="/railfence" class="nav-item active">Rail Fence</a>
+            <a href="/playfair" class="nav-item">Playfair</a>
+            <a href="/transposition" class="nav-item">Transposition</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card">
+            <h1>Mật mã Rail Fence</h1>
+            <p class="subtitle">Viết bản rõ theo đường zig-zag qua các "hàng rào" (Rails) và đọc theo từng hàng để mã hoá.</p>
+            
+            <div class="cipher-grid">
+                <div class="input-section">
+                    <div class="form-group">
+                        <label for="text-input">Văn bản cần xử lý</label>
+                        <textarea id="text-input" placeholder="Nhập văn bản tại đây..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="key-input">Số lượng Rails (Số nguyên >= 2)</label>
+                        <input type="number" id="key-input" value="3" min="2" max="100">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="processCipher('encrypt')">🔒 Mã hoá</button>
+                        <button class="btn btn-secondary" onclick="processCipher('decrypt')">🔑 Giải mã</button>
+                    </div>
+                </div>
+                
+                <div class="output-section">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <span class="result-title" id="result-title">Kết quả</span>
+                            <button class="copy-btn" onclick="copyResult()">📋 Sao chép</button>
+                        </div>
+                        <div class="result-box" id="result-box">Kết quả sẽ xuất hiện ở đây...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 HUTECH Advanced Cryptography Lab - Thiết kế bởi Antigravity</p>
+    </footer>
+
+    <script>
+        async function processCipher(action) {
+            const textInput = document.getElementById("text-input").value;
+            const keyInput = document.getElementById("key-input").value;
+            const resultBox = document.getElementById("result-box");
+            const resultTitle = document.getElementById("result-title");
+            
+            if (!textInput.trim()) {
+                alert("Vui lòng nhập văn bản!");
+                return;
+            }
+            
+            const rails = parseInt(keyInput);
+            if (isNaN(rails) || rails < 2) {
+                alert("Số lượng rails phải là số nguyên >= 2!");
+                return;
+            }
+            
+            resultBox.innerText = "Đang xử lý...";
+            
+            try {
+                const endpoint = action === 'encrypt' ? '/api/railfence/encrypt' : '/api/railfence/decrypt';
+                const bodyData = action === 'encrypt' 
+                    ? { plain_text: textInput, key: rails }
+                    : { cipher_text: textInput, key: rails };
+                
+                const response = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Có lỗi xảy ra từ máy chủ API");
+                }
+                
+                const data = await response.json();
+                const result = action === 'encrypt' ? data.encrypted_message : data.decrypted_message;
+                
+                resultTitle.innerText = action === 'encrypt' ? "Bản mã (Ciphertext)" : "Bản rõ (Plaintext)";
+                resultBox.innerText = result;
+            } catch (err) {
+                resultBox.innerText = `Lỗi: ${err.message}. Hãy chắc chắn rằng API server ở cổng 5000 đang chạy!`;
+            }
+        }
+        
+        function copyResult() {
+            const resultBox = document.getElementById("result-box");
+            if (resultBox.innerText && !resultBox.innerText.startsWith("Kết quả") && !resultBox.innerText.startsWith("Lỗi")) {
+                navigator.clipboard.writeText(resultBox.innerText);
+                alert("Đã sao chép vào bộ nhớ tạm!");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mật mã học nâng cao - Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span>🛡️</span> BMTT Nâng Cao
+        </a>
+        <nav class="nav-links">
+            <a href="/" class="nav-item active">Dashboard</a>
+            <a href="/caesar" class="nav-item">Caesar</a>
+            <a href="/vigenere" class="nav-item">Vigenère</a>
+            <a href="/railfence" class="nav-item">Rail Fence</a>
+            <a href="/playfair" class="nav-item">Playfair</a>
+            <a href="/transposition" class="nav-item">Transposition</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card">
+            <h1>Học phần: Bảo mật thông tin nâng cao</h1>
+            <p class="subtitle">Chào mừng bạn đến với ứng dụng demo các thuật toán mật mã cổ điển được xây dựng trên nền tảng Flask Framework.</p>
+            
+            <div class="dashboard-grid">
+                <a href="/caesar" class="cipher-card">
+                    <span class="cipher-icon">🔑</span>
+                    <h3 class="cipher-title">Mật mã Caesar</h3>
+                    <p class="cipher-desc">Thuật toán dịch chuyển các chữ cái trong bảng chữ cái theo một khoảng cách khoá cố định (K).</p>
+                </a>
+                
+                <a href="/vigenere" class="cipher-card">
+                    <span class="cipher-icon">✨</span>
+                    <h3 class="cipher-title">Mật mã Vigenère</h3>
+                    <p class="cipher-desc">Hệ mã hoá nhiều bảng chữ cái sử dụng một chuỗi từ khoá (Keyword) để dịch chuyển lặp lại các ký tự.</p>
+                </a>
+                
+                <a href="/railfence" class="cipher-card">
+                    <span class="cipher-icon">🎢</span>
+                    <h3 class="cipher-title">Mật mã Rail Fence</h3>
+                    <p class="cipher-desc">Phương pháp mã hoá hoán vị viết các chữ cái theo đường zig-zag và đọc theo từng dòng.</p>
+                </a>
+                
+                <a href="/playfair" class="cipher-card">
+                    <span class="cipher-icon">♟️</span>
+                    <h3 class="cipher-title">Mật mã Playfair</h3>
+                    <p class="cipher-desc">Mật mã hoán vị cặp chữ cái dựa trên một ma trận chữ cái kích thước 5x5 được tạo từ khoá.</p>
+                </a>
+                
+                <a href="/transposition" class="cipher-card">
+                    <span class="cipher-icon">📊</span>
+                    <h3 class="cipher-title">Mật mã Transposition</h3>
+                    <p class="cipher-desc">Hệ mã hoá hoán vị cột (Columnar Transposition) thay đổi thứ tự ký tự bằng cách sắp xếp chúng vào lưới.</p>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 HUTECH Advanced Cryptography Lab - Thiết kế bởi Antigravity</p>
+    </footer>
+</body>
+</html>
