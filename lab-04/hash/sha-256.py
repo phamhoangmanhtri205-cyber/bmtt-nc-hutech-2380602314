@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+
+import sys
+import io
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
+import hashlib
+import sys
+
+def calculate_sha256_hash(data):
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(data.encode('utf-8'))
+    return sha256_hash.hexdigest()
+
+def main():
+    if len(sys.argv) > 1:
+        data_to_hash = " ".join(sys.argv[1:])
+    else:
+        data_to_hash = input("Nhập dữ liệu để hash bằng SHA-256: ")
+    
+    hash_value = calculate_sha256_hash(data_to_hash)
+    print("Giá trị hash SHA-256:", hash_value)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,4 @@
+pycryptodome
+cryptography
+tornado
+PyQt6
